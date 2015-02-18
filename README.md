@@ -1,2 +1,4 @@
 # testeapp
-app for learning kivy
+
+
+Queremos aprender kivy. Aca vamos a implementar pong, del tutorial.
