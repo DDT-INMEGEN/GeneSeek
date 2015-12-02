@@ -21,12 +21,17 @@ class GeneSeek(Widget):
 =============
 
 """.format(gene_symbol=gene_symbol)
+        found = False
         
         for i in root:
             for j in i:
                 if j.tag == 'Entrezgene_summary':
+                    found = True
                     summary += j.text
 
+        if not found:
+            summary += "not found!"
+            
         self.ids.ficha.text = summary
 
 
