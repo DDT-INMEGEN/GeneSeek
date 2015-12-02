@@ -1,12 +1,6 @@
 #:kivy 1.0.9
 
 <GeneSeek>:
-    canvas.before:
-        Color:
-            rgb: .6, .6, .6
-        Rectangle:
-            size: self.size
-
 
     BoxLayout:
         orientation: 'vertical'
@@ -14,15 +8,23 @@
         fullscreen: True    
         width: root.width
         height: root.height
-        Label:
-            text: "Seek and you shall find"
 
-        TextInput:
-            id: textinput
-            text: 'KNCJ12'
-        Button:
-            text: 'Seek info'
-            on_press: root.do_action()
+        BoxLayout:
+            size_hint: 0.8,0.1
+            orientation: 'horizontal'
+            padding: 20
+            
+            Label:
+                text: "Gene Symbol"
+
+            TextInput:
+                id: textinput
+                multiline: False
+                focus: True
+
+            Button:
+                text: 'Get Summary'
+                on_release: root.seek_summary()
 
         RstDocument:
             id: ficha
