@@ -1,4 +1,4 @@
-# testeapp
+# GeneSeek
 
+Get Gene summaries from Entrez, from your mobile device!
 
-Queremos aprender kivy. Aca vamos a implementar pong, del tutorial.
