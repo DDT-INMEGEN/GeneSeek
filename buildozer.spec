@@ -7,7 +7,7 @@ title = GeneSeek
 package.name = geneseek
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = mx.gob.inmegen.geneseek
+package.domain = mx.gob.inmegen
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -33,7 +33,7 @@ version = 1.0.0
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy,Bio-Eutils
+requirements = kivy,eutils,docutils
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

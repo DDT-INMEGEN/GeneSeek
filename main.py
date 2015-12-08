@@ -3,31 +3,33 @@ from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
 
 import xml.etree.ElementTree as ET
-from Bio_Eutils import Entrez
-
+import eutils.client
 
 
 class GeneSeek(Widget):
 
     def seek_summary(self):
         gene_symbol = self.ids.textinput.text
-        Entrez.email = 'A.N.Other@example.com'
-        pub_search = Entrez.read(Entrez.esearch(db="gene", retmax=100, term=gene_symbol + "[sym]"))
-        encoded = Entrez.efetch(db='gene',  id=pub_search['IdList'], retmax=20, rettype="xml").read()
-        root = ET.fromstring(encoded)
 
-        summary = """
-{gene_symbol}
+
+        summary = u"""
+=============
+**{gene_symbol}**
 =============
 
 """.format(gene_symbol=gene_symbol)
-        found = False
+
         
-        for i in root:
-            for j in i:
-                if j.tag == 'Entrezgene_summary':
-                    found = True
-                    summary += j.text
+        found = False
+
+        ec = eutils.client.Client(cache_path=False)
+        esr = ec.esearch(db='gene',term=gene_symbol)
+
+        if len(esr.ids)>0:
+            egs = ec.efetch(db='gene', id=esr.ids[0])        
+            summary += egs.summary
+            found = True
+        
 
         if not found:
             summary += "not found!"
