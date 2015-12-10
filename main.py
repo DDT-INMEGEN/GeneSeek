@@ -1,10 +1,10 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
+import pickle
 
-import xml.etree.ElementTree as ET
+genes = pickle.load(open('fakedb.pickle','rb'))
 
-from fakedf import genes
 
 class GeneSeek(Widget):
 
@@ -19,11 +19,21 @@ class GeneSeek(Widget):
 
 """.format(gene_symbol=gene_symbol)
 
-        summary = genes.get(gene_symbol, 'not found')
-        
-        self.ids.ficha.text = summary
-
-
+        text = ""
+        for summary in genes.get(gene_symbol, 'not found'):
+            if summary == 'not found':
+                text = 'not found'
+            else:
+                text += """
+                
+{title}
+----------------
+{desc}
+                
+""".format(title=summary['title'],
+           desc =summary['desc'])
+        self.ids.ficha.text = text
+            
 class SeekApp(App):
     def build(self):
         return GeneSeek()
