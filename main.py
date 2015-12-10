@@ -3,8 +3,8 @@ from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
 
 import xml.etree.ElementTree as ET
-import eutils.client
 
+from fakedf import genes
 
 class GeneSeek(Widget):
 
@@ -19,21 +19,8 @@ class GeneSeek(Widget):
 
 """.format(gene_symbol=gene_symbol)
 
+        summary = genes.get(gene_symbol, 'not found')
         
-        found = False
-
-        ec = eutils.client.Client(cache_path=False)
-        esr = ec.esearch(db='gene',term=gene_symbol)
-
-        if len(esr.ids)>0:
-            egs = ec.efetch(db='gene', id=esr.ids[0])        
-            summary += egs.summary
-            found = True
-        
-
-        if not found:
-            summary += "not found!"
-            
         self.ids.ficha.text = summary
 
 
