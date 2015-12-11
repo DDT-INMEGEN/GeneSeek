@@ -2,14 +2,14 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
 import pickle
+from fakedb import genes
 
-genes = pickle.load(open('fakedb.pickle','rb'))
 
 
 class GeneSeek(Widget):
 
     def seek_summary(self):
-        gene_symbol = self.ids.textinput.text
+        gene_symbol = self.ids.textinput.text.decode(encoding='UTF-8')
 
 
         summary = u"""
@@ -19,20 +19,20 @@ class GeneSeek(Widget):
 
 """.format(gene_symbol=gene_symbol)
 
-        text = ""
-        for summary in genes.get(gene_symbol, 'not found'):
-            if summary == 'not found':
-                text = 'not found'
-            else:
-                text += """
-                
+        summaries = genes.get(gene_symbol, False)
+        if summaries:
+            text = u""
+            for summary in summaries:
+                text += u"""
 {title}
 ----------------
 {desc}
                 
 """.format(title=summary['title'],
            desc =summary['desc'])
-        self.ids.ficha.text = text
+            self.ids.ficha.text = text                
+        else:
+            self.ids.ficha.text = "not found"
             
 class SeekApp(App):
     def build(self):
